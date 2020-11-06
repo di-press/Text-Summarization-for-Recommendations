@@ -1,3 +1,5 @@
+# remember to change your directories according to your configurations!
+
 import xml.etree.ElementTree as ET
 import collections
 from itertools import chain
@@ -19,7 +21,7 @@ def reviews_noun_extractor(dir_target, destination_file):
         None
     """
     
-    #tags for nouns:
+    #tags for nouns established in the Penn Treebank:
     desired_POS=["NN", "NNS", "NNP", "NNPS"] 
     
     #clear file, in case it already exists:
@@ -89,7 +91,10 @@ def single_review_noun_extractor(file_name, desired_POS, destination_file):
 
 if __name__ == '__main__':
 
-    #dirtest = "C:\\Users\\User\\Desktop\\ic\\Reviews\\HetRec_CoreNLP" 
+    # adequate your directory, as an example:
+    # dirtest = "C:\\Users\\User\\Desktop\\ic\\Reviews\\HetRec_CoreNLP" 
+    # dirtest is the directory of the decompressed folder of the reviews database:
+    
     dirtest = "your diretory"
     destiny_file = "corpora_reviews.txt"
     
