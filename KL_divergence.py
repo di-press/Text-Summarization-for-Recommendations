@@ -99,8 +99,8 @@ def epsilon_aspects_extraction(KL_values, threshold, destiny_file):
 
     return aspects
 
-#tests:
+#temporary tests:
 if __name__ == '__main__':
  
-    dict_kl = KL_nouns_values("KL_nouns.txt")
-    aspects = epsilon_aspects_extraction(dict_kl, 2000, "aspects.txt")
+    dict_kl = KL_nouns_values("KL_nouns_values.txt")
+    aspects = epsilon_aspects_extraction(dict_kl, 2000, "aspects_values.txt")

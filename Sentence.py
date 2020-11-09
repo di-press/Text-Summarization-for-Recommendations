@@ -7,6 +7,7 @@ class Sentence:
         self._xml = xml_name
         self._id_sentence = id_sentence
         self._sentiment = sentiment
+        self.personal_opinion = False
         self._joined_string = ''.join(self._tokens)
 
     @property
@@ -17,6 +18,9 @@ class Sentence:
     def sentiment_value(self):
         return self._sentiment_value
 
+    @property
+    def sentiment(self):
+        return self._sentiment
 
     @property
     def tokens(self):
@@ -38,6 +42,14 @@ class Sentence:
     def sentiment(self):
         return self._sentiment
 
+    #@property
+    #def personal_opinion(self):
+    #    return self._personal_opinion
+    
+    #@personal_opinion.setter
+    #def personal_opinion_set(self):
+    #    self._personal_opinion = True
+
     @number_of_tokens.setter
     def number_of_tokens(self, number_of_tokens):
         self._number_of_tokens = number_of_tokens
@@ -50,6 +62,21 @@ class Sentence:
 
     def __str__(self):
         return ' '.join(self._tokens)
+        
+    #the file must be already open before using this function
+    def sentence_test(self, file_destiny):
+        with open(file_destiny, 'a', encoding="utf-8") as f:
+            print("Sentiment value of this sentence: ", self._sentiment_value, file=f)
+            print("Number of tokens in this sentence: ", self._number_of_tokens, file=f)
+            print("aspects in this sentence: ", file=f)
+
+            for aspect in self._aspects:
+                print(aspect, file=f)
+
+            print("Complete sentence: ", file=f)
+            print(self.__str__(), file=f)
+            print("-------------------------", file=f)
+
 
     '''@property
     def joined_string(self):

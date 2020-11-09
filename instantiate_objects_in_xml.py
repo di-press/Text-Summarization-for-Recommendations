@@ -1,4 +1,4 @@
-#código oficial para criar objetos do tipo sentença
+#código auxiliar para criar objetos do tipo sentença; funciona perfeitamente
 #funciona perfeitamente
 #cria objetos sentenças dado um xml e o imprime no arquivo de destino
 import xml.etree.ElementTree as ET
@@ -66,5 +66,4 @@ if __name__ == '__main__':
 
     aspects = {'morality': 0, 'film': 1, 'dog': 2}
     #aspects_list = list(aspects_dict.keys())
-    #test:
-    sentence_extractor("x2145_1.xml", aspects, "generated_xmls.txt")
+    sentence_extractor("x2145_1.xml", aspects, "xml_parsados.txt")
