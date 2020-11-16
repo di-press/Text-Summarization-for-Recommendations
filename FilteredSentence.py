@@ -17,6 +17,7 @@ class FilteredSentence:
         self._in_summary = False
         self._raw_sentence = sentence
         self._preprocessed_sentence = ""
+        self._filtered_sentence_score = 0
         
         self.preprocessing_phase()
 
@@ -39,11 +40,19 @@ class FilteredSentence:
 
     @property
     def preprocessed_sentence(self):
-        return._preprocessed_sentece
+        return self._preprocessed_sentece
 
     @property
     def is_in_summary(self):
-        return._in_summary
+        return self._in_summary
+
+    @property
+    def filtered_sentence_score(self):
+        return self._filtered_sentence_score
+
+    @filtered_sentence_score.setter
+    def filtered_sentence_score(self, score_value):
+        self._filtered_sentence_score = score_value
 
 
     def __str__(self):
