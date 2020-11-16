@@ -1,12 +1,12 @@
 
-# arrumar pra quando tiver um único documento (tratar exceção)
+# need to be commented!
 import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 import math 
 from collections import OrderedDict
 
-# treat the case which has only one document
+# treat the case which has only one document, if it exists
 
 '''
     when this function is applied, the dataframe already contains
@@ -77,12 +77,13 @@ def tf_idf(dataframe):
     return dataframe
 
 '''
-    this function returns the words that were 
+    this function returns the words in the reviews that were 
+    selected to be part of the centroid
 '''
 
-def tf_idf_centroid_selection(pseudoreview, threshold):
+def tf_idf_centroid_selection(review, threshold):
 
-    text_data = np.array(pseudoreview)
+    text_data = np.array(review)
 
     # create the bag of words feature matrix
     count = CountVectorizer()
