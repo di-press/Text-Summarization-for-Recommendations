@@ -1,6 +1,7 @@
 # fazer a função que faz a query do babelnet
 
 import numpy as np
+import math
 
 
 """
@@ -96,8 +97,8 @@ def centroid_construction(selected_centroid_synsets):
     If a sentence has not even a single word in the Nasari representation,
     it is discarded
 
-    sentences_embbedings is a list that is returned bythis function, and each element
-    of this list represent a sentence embbeding
+    sentences_embbedings is a list that is returned by this function, and each element
+    of this list represent a sentence embbeding in numpy ndarray format
 
 '''
 def sentence_embbeding_construction(babelsynsets_filtered_sentences):
@@ -126,6 +127,30 @@ def sentence_embbeding_construction(babelsynsets_filtered_sentences):
 
     return sentences_embbedings
     
+'''
+    Function to calculate the cosine similarity between two embbedings,
+    as in formula 5 of the paper.
+    If one of the embbedings is a zero vector, NaN is returned,
+    and the sentence is not included in the summary phase.
+'''
+
+
+def cosine_similarity(centroid_embbeding, sentence_embbeding):
+
+    centroid_norm = np.linalg.norm(centroid_embbeding, 2)
+    sentence_embbeding_norm = np.linalg.norm(sentence_embbeding, 2)
+    
+    if centroid_norm == 0 or sentence_embbeding_norm == 0:
+        print("Log: at least one zero vector was encountered")
+        return np.nan
+
+    dot_product_embbedings = np.dot(centroid_embbeding, sentence_embbeding)
+    cosine_denominator = centroid_norm * sentence_embbeding_norm
+    cosine_similarity = dot_product_embbedings / cosine_denominator
+
+    return cosine_similarity
+
+
 
 if __name__ == '__main__':
 
