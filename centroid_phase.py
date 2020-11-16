@@ -1,4 +1,7 @@
+# fazer a função que faz a query do babelnet
+
 import numpy as np
+
 
 """
     "babelsynsets_4471657.txt" is a file in which each line is a babelsynset
@@ -26,19 +29,79 @@ def retrieve_babelsynset_dimensions(desired_babelsynset):
                 # in the centroid phase:
 
                 desired_babelsynset_dimensions = line.partition(" ")[2]
-
+                
                 # split each dimension value in the line by space:
-                desired_babelsynset_dimensions = line.split(" ")
+                desired_babelsynset_dimensions = desired_babelsynset_dimensions.split(" ")
 
-                # the values are read as strings. Converting them to numbers:
+                # the values are read as strings. The valuer are converted to float
+                # values, and the "\n" character is removed:
                 desired_babelsynset_dimensions = list(map(float, desired_babelsynset_dimensions))
 
-
+                # converting the dimensions into numpy array:
                 babelsynsets_dimensions_array = np.array(desired_babelsynset_dimensions)
                 
                 return babelsynsets_dimensions_array
 
     return False
+
+'''
+    selected_centroid_synsets is a list containing the babelsynset ID
+    of the words that were previously selected through the tf-idf algorithm
+    to be part of the centroid embbeding.
+
+    This function sum the vectors of the babelsynset nasri embbedings
+    (each dimension of a vector is added to the corresponding dimension
+    of the other vector, and so on, as in formula 3 of the paper)
+'''
+
+def centroid_construction(selected_centroid_synsets):
+
+    # founded_synsets is going to accuse if no synset was found
+    # in Nasari embbedings file:
+    founded_synsets = False
+
+    centroid_embbeding = np.zeros(300, float)
+
+    for current_babelsynset in selected_centroid_synsets:
+        
+        current_babelsynset_dimensions = retrieve_babelsynset_dimensions(current_babelsynset)
+
+        # if it is not a boolean variable, the babelsynset was found:
+        if type(current_babelsynset_dimensions) != bool:
+
+            # a synset was found:
+            founded_synsets = True
+
+            # sum of each dimension 
+            centroid_embbeding = centroid_embbeding + current_babelsynset_dimensions
+
+    if founded_synsets == True:
+        
+        return centroid_embbeding
+    else:
+        
+        return False
+
+
+def sentence_embbeding_construction():
+    
+
+if __name__ == '__main__':
+
+    dimensions = retrieve_babelsynset_dimensions("bn:00000055n")
+
+    if type(dimensions) != bool:
+        print(dimensions)
+    else:
+        print("Not found")
+    
+
+    dimensions = retrieve_babelsynset_dimensions("bn:11100055n")
+
+    if type(dimensions) != bool:
+        print(dimensions)
+    else:
+        print("Not found")
 
 
 
