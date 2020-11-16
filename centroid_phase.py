@@ -82,8 +82,49 @@ def centroid_construction(selected_centroid_synsets):
         
         return False
 
+'''
+    babelsynsets_filtered_sentences is a list of lists of babelsynsets;
+    that means each list represents a set of babelsynsets reprsenting each word
+    in the sentence.
+    As example: [[all synsets representing the words of sentence 1],
+                 [all synsets representing the words of sentence 2],
+                 etc]
+    
+    For each sentence, its embbeding is computed by summing each vector embbeding
+    of each word in the sentence, as described in formula(4) of the paper
 
-def sentence_embbeding_construction():
+    If a sentence has not even a single word in the Nasari representation,
+    it is discarded
+
+    sentences_embbedings is a list that is returned bythis function, and each element
+    of this list represent a sentence embbeding
+
+'''
+def sentence_embbeding_construction(babelsynsets_filtered_sentences):
+
+    sentences_embbedings = []
+
+    for synsets_words_list in babelsynsets_filtered_sentences:
+
+        representation = False        
+        current_sentence_vector = np.zeros(300, float)
+        
+        for word_synset in synsets_words_list:
+
+            babelsynset_dimensions = retrieve_babelsynset_dimensions(word_synset)
+
+            if type(babelsynset_dimensions) != bool:
+                
+                representation = True
+                current_sentence_vector = current_sentence_vector + babelsynset_dimensions
+
+        # if representation has been evaluated to True, that means that at least
+        # one word in the sentence has a babelsynset representation
+        if representation == True:
+            
+            sentences_embbedings.append(current_sentence_vector)
+
+    return sentences_embbedings
     
 
 if __name__ == '__main__':
