@@ -1,6 +1,7 @@
 
 from gensim.parsing.preprocessing import remove_stopwords
 from gensim.parsing.preprocessing import strip_punctuation
+import numpy as np
 
 
 # as sentenças vindas do sentence filtering estarão contidas
@@ -18,6 +19,7 @@ class FilteredSentence:
         self._raw_sentence = sentence
         self._preprocessed_sentence = ""
         self._filtered_sentence_score = 0
+        self._sentence_embbeding = np.zeros(300, float)
         
         self.preprocessing_phase()
 
@@ -54,6 +56,13 @@ class FilteredSentence:
     def filtered_sentence_score(self, score_value):
         self._filtered_sentence_score = score_value
 
+    @property
+    def sentence_embbeding(self):
+        return self._sentence_embbeding
+
+    @sentence_embbeding.setter
+    def sentence_embbeding(self, embbeding):
+        self._sentence_embbeding = embbeding
 
     def __str__(self):
 
