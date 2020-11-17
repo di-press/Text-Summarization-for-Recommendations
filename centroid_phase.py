@@ -85,7 +85,7 @@ def centroid_construction(selected_centroid_synsets):
 
 '''
     babelsynsets_filtered_sentences is a list of lists of babelsynsets;
-    that means each list represents a set of babelsynsets reprsenting each word
+    that means each list represents a set of babelsynsets representing each word
     in the sentence.
     As example: [[all synsets representing the words of sentence 1],
                  [all synsets representing the words of sentence 2],
@@ -100,7 +100,7 @@ def centroid_construction(selected_centroid_synsets):
     sentences_embbedings is a list that is returned by this function, and each element
     of this list represent a sentence embbeding in numpy ndarray format
 
-'''
+
 def sentence_embbeding_construction(babelsynsets_filtered_sentences):
 
     sentences_embbedings = []
@@ -126,7 +126,55 @@ def sentence_embbeding_construction(babelsynsets_filtered_sentences):
             sentences_embbedings.append(current_sentence_vector)
 
     return sentences_embbedings
+
+'''
+
+'''
+    Given a list of FilteredSentence objects, passed as parameter,
+    this function compute the sentence embbeding for each
+    FilteredSentence object.
+
+    For each sentence, its embbeding is computed by summing each vector embbeding
+    of each word in the sentence, as described in formula(4) of the paper
+
+    If a sentence has not even a single word in the Nasari representation,
+    it is discarded
+
+    sentences_embbedings is a list that is returned by this function, and each element
+    of this list is a FilteredSentence object, and a candidate to be included in
+    the summary.
+
+'''
+
+def sentence_embbeding_construction(filtered_sentences):
     
+    sentences_embbedings = []
+
+    for sentence in filtered_sentences:
+
+        representation = False        
+        current_sentence_vector = np.zeros(300, float)
+
+        current_synsets_words = sentence.babelsynsets_words
+
+        for word_synset in current_synsets_words:
+            
+            babelsynset_dimensions = retrieve_babelsynset_dimensions(word_synset)
+
+            if type(babelsynset_dimensions) != bool:
+                
+                representation = True
+                current_sentence_vector = current_sentence_vector + babelsynset_dimensions
+
+        # if representation has been evaluated to True, that means that at least
+        # one word in the sentence has a babelsynset representation
+        if representation == True:
+
+            sentence.sentence_embbeding = current_sentence_vector       
+            sentences_embbedings.append(sentence)
+
+    return sentences_embbedings    
+
 '''
     Function to calculate the cosine similarity between two embbedings,
     as in formula 5 of the paper.
