@@ -2,6 +2,7 @@
 
 import numpy as np
 import math
+import FilteredSentence 
 
 
 """
@@ -198,6 +199,22 @@ def cosine_similarity(centroid_embbeding, sentence_embbeding):
 
     return cosine_similarity
 
+
+def sentence_scoring(centroid_embbeding, sentences_embbedings):
+
+    filtered_sentences_scores = {}
+
+    for sentence_object in sentences_embbedings:
+
+        current_sentence_embbeding = sentence_object.sentence_embbeding
+        current_sentence_score = cosine_similarity(centroid_embbeding, current_sentence_embbeding)
+
+        if current_sentence_score != np.nan:
+
+            filtered_sentences_scores[sentence_object] = current_sentence_score
+    
+    # faltou ordenar aqui:            
+    return filtered_sentences_scores
 
 
 if __name__ == '__main__':

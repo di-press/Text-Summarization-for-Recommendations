@@ -18,8 +18,10 @@ class FilteredSentence:
         self._in_summary = False
         self._raw_sentence = sentence
         self._preprocessed_sentence = ""
+        self._preprocessed_words = []
         self._filtered_sentence_score = 0
         self._sentence_embbeding = np.zeros(300, float)
+        self._babelsynsets_words = []
         
         self.preprocessing_phase()
 
@@ -33,16 +35,17 @@ class FilteredSentence:
     '''
 
     def preprocessing_phase(self):
-     
-        
-        sentece = strip_punctuation(self._raw_sentence)
-        sentece = remove_stopwords(self._raw_sentence)
-        self._preprocessed_sentence = sentece.lower()
+            
+        sentence = strip_punctuation(self._raw_sentence)
+        sentence = remove_stopwords(sentence)
+        # sentence = sentence.lower()
+        self._preprocessed_sentence = sentence
+        self._preprocessed_words = sentence.split()
 
 
     @property
     def preprocessed_sentence(self):
-        return self._preprocessed_sentece
+        return self._preprocessed_sentence
 
     @property
     def is_in_summary(self):
@@ -64,6 +67,27 @@ class FilteredSentence:
     def sentence_embbeding(self, embbeding):
         self._sentence_embbeding = embbeding
 
+
+    @property
+    def preprocessed_words(self):
+        return self._preprocessed_words
+
+    @property
+    def babelsynsets_words(self):
+        return self._babelsynsets_words
+    
+    #fazer query das words
+
     def __str__(self):
 
-        return ' '.join(self._raw_sentence)
+        return ''.join(self._raw_sentence)
+
+
+if __name__ == "__main__":
+
+    phrase = "I was never late, untill the day I realized I had dreams."
+
+    new_filtered_sentence = FilteredSentence(1, phrase)
+    final = new_filtered_sentence.preprocessed_sentence
+    print(final)
+    print(new_filtered_sentence.__str__())
