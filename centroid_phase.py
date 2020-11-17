@@ -199,6 +199,18 @@ def cosine_similarity(centroid_embbeding, sentence_embbeding):
 
     return cosine_similarity
 
+'''
+    sentences_embbedings is a list of sentences objects.
+    For each sentence object, the score for its embbeding
+    is calculated as in formula (4) of the paper.
+
+    Only the sentence embbedings having a non NaN value
+    are going to be inlcuded in the filtered_sentences_score dictionary.
+
+    This function returns a dictionary with sentence objects,
+    and for each object, its embbeding and score were attributed
+    in this function.
+'''
 
 def sentence_scoring(centroid_embbeding, sentences_embbedings):
 
@@ -212,8 +224,8 @@ def sentence_scoring(centroid_embbeding, sentences_embbedings):
         if current_sentence_score != np.nan:
 
             filtered_sentences_scores[sentence_object] = current_sentence_score
+
     
-    # faltou ordenar aqui:            
     return filtered_sentences_scores
 
 
