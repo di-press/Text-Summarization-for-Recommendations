@@ -224,9 +224,98 @@ def sentence_scoring(centroid_embbeding, sentences_embbedings):
         if current_sentence_score != np.nan:
 
             filtered_sentences_scores[sentence_object] = current_sentence_score
+            sentence_object.filtered_sentence_score = current_sentence_score
 
     
     return filtered_sentences_scores
+
+"""
+
+    filtered_sentences_score is a dict contianing a sentence_object
+    mapped with its score value.
+
+    Count by word is a boolean value. When count_by_word is passed as True,
+    the summary is formed untill the maximum number of words is reached.
+
+    When count_by_word is passed as False, the summary is formed until the
+    desired number of sentences is reached.
+
+    discard_threshold is the value of cosine similarity between a sentence already
+    included in the summary and a sentence to be included.
+
+    max_number_elements is the number of words/sentences that are desired
+    to be in the summary.
+"""
+
+def sentence_selection(filtered_sentences_scores, discard_threshold, max_number_of_elements, count_by_word):
+
+    # order the dictionary by score of each sentence embbeding in descending order.
+    # sorted_filtered_sentences score is a list, in whic each element contain
+    # the sentence object and its score value  
+    sorted_filtered_sentences_score = sorted(filtered_sentences_scores.items(), key=lambda x : x[1], reverse=True)          
+
+    candidates_sentences_summary = []
+
+    for pair in sorted_filtered_sentences_score:
+        #candidates_sentences_summary is going to contain only sentence_objects
+        candidates_sentences_summary.append(pair[0])
+
+    sentences_in_summary = []
+
+    # the first sentence object in the candidates_sentence_summary
+    # is the sentence that had the highest score in the sorted_filtered_sentences_score;
+    # so, this sentence object is surely included in the summary list (sentences_in_summary):
+
+    highest_score_sentence = candidates_sentences_summary.pop(0)
+    sentences_in_summary.append(highest_score_sentence)
+
+    # now, the candidates_sentences_in_summary has one less element,
+    # since the first sentence object element was popped.
+
+    number_chosen_elements = 1
+
+    #evaluating the similarity between each sentence object to be included in the summary:
+
+    for sentence in candidates_sentences_summary:
+
+        for included_summary_sentence in sentences_in_summary:
+
+            current_score = cosine_similarity(included_summary_sentence, sentence)
+
+            if current_score >= discard_threshold or current_score == np.nan:
+                
+                break
+                        
+            
+            if count_by_word == True:
+
+                number_chosen_elements = number_chosen_elements + sentence.number_of_words
+
+                if number_chosen_elements <= max_number_of_elements:
+                
+                    sentences_in_summary.append(sentence)
+                else:
+                    return sentences_in_summary
+            
+            # if count_by_word is false, means that the number of sentences is counted:
+            if count_by_word == False:
+
+                sentences_in_summary.append(sentence)
+                number_chosen_elements = number_chosen_elements + 1
+
+                if number_chosen_elements == max_number_of_elements:
+                    
+                    return sentences_in_summary
+
+    return sentences_in_summary
+
+
+def print_summary(sentences_in_summary):
+
+    for sentence_object in sentences_in_summary:
+        
+        sentence_object.__str__()
+
 
 
 if __name__ == '__main__':

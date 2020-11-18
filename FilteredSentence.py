@@ -15,8 +15,10 @@ class FilteredSentence:
     def __init__(self, id, sentence):
         
         self._id = id
+        #acabei nao usando abaixo:
         self._in_summary = False
         self._raw_sentence = sentence
+        self._number_of_words = 0
         self._preprocessed_sentence = ""
         self._preprocessed_words = []
         self._filtered_sentence_score = 0
@@ -35,7 +37,8 @@ class FilteredSentence:
     '''
 
     def preprocessing_phase(self):
-            
+
+        self._number_of_words = len(self._raw_sentence.split())  
         sentence = strip_punctuation(self._raw_sentence)
         sentence = remove_stopwords(sentence)
         # sentence = sentence.lower()
@@ -75,6 +78,10 @@ class FilteredSentence:
     @property
     def babelsynsets_words(self):
         return self._babelsynsets_words
+
+    @property 
+    def number_of_words(self):
+        return self._number_of_words
     
     #fazer query das words
 
