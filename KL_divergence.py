@@ -30,23 +30,21 @@ def KL_divergence(frequency_corpora_reviews, frequency_corpora_BNC):
 
     return (KL)
 
-def KL_nouns_values(destiny_file):
+def KL_nouns_values(corpora_BNC, corpora_reviews):
 
     """Computes the KL value for each noun present in the corpora of reviews,
     using the previous generated files: "corpora_reviews.txt" and 
     "corpora_BNC.txt"
 
     Args:
-        destiny_file (str): The ".txt" file that is going to contain 
-        the KL values for all the nouns presents in the reviews coropora
-
+        
     Returns:
         KL_values (dict): Contains the KL value associated to each noun of the corpora review,
         for all nouns presents in the corpora review
     """
     #counts the occurrence of each noun in the following corporas:
-    count_nouns_reviews = count_occur.count_in_file("corpora_reviews_apos_erro.txt")
-    count_nouns_BNC = count_occur.count_in_file("corpora_BNC_apos_erro.txt")
+    count_nouns_reviews = count_occur.counting_occurrences_list(corpora_reviews)
+    count_nouns_BNC = count_occur.counting_occurrences_list(corpora_BNC)
     
     
     KL_values = {}
@@ -65,8 +63,6 @@ def KL_nouns_values(destiny_file):
         #in the corpora review:
         KL_values[noun] = KL_divergence(frequency_corpora_reviews, frequency_corpora_BNC)
 
-    with open(destiny_file, 'w', encoding="utf-8") as f:
-        print(KL_values, file=f)
     
     return KL_values
 
@@ -83,7 +79,8 @@ def epsilon_aspects_extraction(KL_values, threshold, destiny_file):
         threshold (double): The Epsilon cited in the paper
 
         destiny_file(str): the file that is going to contain all the
-        aspects extracted
+        aspects extracted. If printing is not desired, this parameter
+        should be passed as "none"
 
     Returns:
         aspects(dict): A dict that relates each aspect to it's KL value
@@ -94,13 +91,10 @@ def epsilon_aspects_extraction(KL_values, threshold, destiny_file):
         if KL_values[noun] > threshold:
             aspects[noun] = KL_values[noun]
     
-    with open(destiny_file, 'a+', encoding="utf-8") as f:
-        print(aspects, file=f)
+    if destiny_file != "none":
+        
+        with open(destiny_file, 'a+', encoding="utf-8") as f:
+            print(aspects, file=f)
 
     return aspects
 
-#tests:
-if __name__ == '__main__':
- 
-    dict_kl = KL_nouns_values("KL_nouns.txt")
-    aspects = epsilon_aspects_extraction(dict_kl, 2000, "aspects.txt")

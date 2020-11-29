@@ -4,10 +4,13 @@ from itertools import chain
 import os
 from datetime import datetime
 
+# This function was adapted to process only one movie at a time.
+# so, the folder 'dir_target' should contain only one movie xml file
 
 def reviews_noun_extractor(dir_target, destination_file):
 
-    """Extracts all the nouns in all the reviews of the reviews dataset
+    """Extracts all the nouns in all the reviews of the reviews dataset.
+        
 
     Args:
         dir_target(str): The directory that contain the ".xml" files with the reviews
@@ -45,10 +48,12 @@ def single_review_noun_extractor(file_name, desired_POS, destination_file):
         desired_POS=["NN", "NNS", "NNP", "NNPS"] 
 
         destination_file (str): This ".txt" file will contain all the nouns
-        extracted from all the reviews in the dataset
+        extracted from all the reviews in the dataset. If printing is not
+        desired, this parameter should be passed as "none"
 
     Returns:
-        None
+        
+        desired_nouns (list): contains all the nouns extracted from the movie
     """
     tree = ET.parse(file_name)
     root = tree.getroot()
@@ -80,10 +85,14 @@ def single_review_noun_extractor(file_name, desired_POS, destination_file):
                 #content_child_text is a word which grammatical class is noun:
                 content_child_text = content_child.text.lower()
                 desired_nouns.append(content_child_text)
-              
+            
 
-    with open(destination_file, 'a+', encoding="utf-8") as f:
-        print(' '.join(desired_nouns), file=f)
+    if destination_file != "none":
+        
+        with open(destination_file, 'a+', encoding="utf-8") as f:
+            print(' '.join(desired_nouns), file=f)
+
+    return desired_nouns
 
 
 
@@ -93,4 +102,4 @@ if __name__ == '__main__':
     dirtest = "your diretory"
     destiny_file = "corpora_reviews.txt"
     
-    reviews_noun_extractor(dirtest, destiny_file)
+    desired_review_nouns = reviews_noun_extractor(dirtest, destiny_file)

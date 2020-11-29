@@ -8,7 +8,7 @@ def BNC_noun_parser (xml_name,
                      searched_token,        
                      first_attribute,       
                      second_attribute,     
-                     file_destiny):         
+                     parsed_tokens):         
 
     """This function extracts all the present nouns in the current xml file.
         The nouns are stored in lower case.
@@ -29,8 +29,9 @@ def BNC_noun_parser (xml_name,
 
         second_attribute (str): This attribute should be passed as "hw"
 
-        file_destiny (str): This parameter should be passed as the name of the
-        ".txt" file that is going to store the parsed nouns
+        parsed_tokens(list): list that is going to contain all the nouns extracted from 
+        the BNC file; if the pos-tagging is a noun(pos="SUBST"), it is stored in the 
+        parsed_tokens list.
 
     Returns:
         None
@@ -44,10 +45,6 @@ def BNC_noun_parser (xml_name,
     # finds only elements with the tag "w" which
     #are direct children of the current root:
     element = root.findall(tag_parameter)
-
-    #list that is going to contain all the nouns extracted form the BNC file;
-    #if the pos-tagging is a noun(pos="SUBST"), it is stored in the parsed_tokens list
-    parsed_tokens = []
        
     
     for desired_tag in element:
@@ -64,9 +61,6 @@ def BNC_noun_parser (xml_name,
             found_noun = found_noun.lower()
             parsed_tokens.append(found_noun)
 
-    #print the found nouns in the ".txt" file:
-    with open(file_destiny, 'a+', encoding="utf-8") as destiny:
-        print(' '.join(parsed_tokens), file=destiny)
 
     
 
@@ -75,28 +69,38 @@ def BNC_nouns_extractor(root_directory, file_destiny):
 
     """Trasverse the folder "Texts" contained in the BNC database. The folder
     "Texts" contains the xml files of the database, which nouns are going
-    to be extracted and written in "corpora_BNC.txt"
+    to be extracted and written in "corpora_BNC.txt", if printing is desired
 
     Args:
         root_directory (str): The directory on your computer for the folder
         "Texts" that was downloaded from BNC database
 
-        file_destiny (str): A ".txt" file that is going to contain all the
-        parsed nouns
+        file_destiny (str): the file that are going to contain all the nouns extracted
+        from the BNC. If printing is not desired, this parameter should be passed
+        as "none"
 
     Returns:
-        file_destiny (str): The ".txt" file that contains the extracted nouns
+        parsed_tokens (list) : list containing all the nouns extracted from the BNC
     
     """    
     #the below line clears the file:
     open(file_destiny, 'w').close() 
 
+    parsed_tokens = []
+
     for subdir, dirs, files in os.walk(root_directory):
         for file in files:                      
             xml_file = os.path.join(subdir, file)
-            BNC_noun_parser(xml_file, "w", "pos", "SUBST", "hw", file_destiny)
+            BNC_noun_parser(xml_file, "w", "pos", "SUBST", "hw", parsed_tokens)
 
-    return (file_destiny)
+    if file_destiny != "none":
+
+        #print the found nouns in the ".txt" file:
+        with open(file_destiny, 'a+', encoding="utf-8") as destiny:
+            print(' '.join(parsed_tokens), file=destiny)
+
+
+    return (parsed_tokens)
 
 
 #test:
@@ -106,6 +110,8 @@ if __name__ == '__main__':
     #root_directory = "C:\\Users\\User\\Desktop\\ic\\ota_20.500.12024_2554\\2554\\Texts"
     root_directory = "Your directory"
 
-    BNC_nouns_extractor(root_directory, file_destiny)
+    all_nouns_list = BNC_nouns_extractor(root_directory, file_destiny)
+
+
 
 
