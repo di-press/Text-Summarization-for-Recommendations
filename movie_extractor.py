@@ -7,19 +7,19 @@ import Review as Review
 
 
 #aspects is a dict that maps each aspect to it's KL relevance
-    def movie_extractor(directory_path, aspects, set_of_movies):
+    def movie_extractor(basepath, aspects, set_of_movies):
         
-        basepath = directory_path
+       
 
         for dirpath, dirnames, files in os.walk(basepath):
             
             new_movie.Movie(dirpath[-4:])
-            #print(f'Found directory: {dirpath}')
+
             for file_name in files:
                 new_review = review_extractor(file_name, aspects)
                 new_movie.reviews.append(new_review)
                 new_movie.number_of_reviews += 1
-                #print(file_name)
+        
 
             for review in new_movie.reviews:
                 aspects_in_review = review.occurrences_of_each_aspect()
@@ -28,7 +28,7 @@ import Review as Review
 
                     current_aspect_count = aspects_in_review[current_aspect]
                     aspect_KL_rel = aspects[current_aspect]
-                    review_sent = review.average_sentiment()
+                    review_sent = review.average_sentiment
 
                     current_aspect_score = current_aspect_count * aspect_KL_rel * review_sent
 
