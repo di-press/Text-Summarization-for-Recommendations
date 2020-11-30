@@ -6,10 +6,23 @@ import Sentence as Sentence
 import Review as Review
 
 
-#aspects is a dict that maps each aspect to it's KL relevance
-    def movie_extractor(basepath, aspects, set_of_movies):
+# to do: refactor this function later
+
+
+    def movie_extractor(basepath, aspects):
         
-       
+       '''
+        basepath (str): the folder containing the folder of each single review
+        parsed by the coreNLP sentimental analysis
+
+        aspects (dict): a dict that maps each aspect to it's KL relevance
+
+        Returns:
+
+            new_movie(Movie) : a Movie object, instatniated with its aspects score
+            and its reviews
+
+       '''
 
         for dirpath, dirnames, files in os.walk(basepath):
             
@@ -36,7 +49,7 @@ import Review as Review
 
                     new_movie.aspects_score[current_aspect] = current_aspect_score
 
-            set_of_movies.append(new_movie)
+            return new_movie
 
 
 if __name__ == '__main__':
