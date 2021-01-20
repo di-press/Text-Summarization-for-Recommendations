@@ -75,9 +75,9 @@ class Review:
         
         # https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html
         # NN 	Noun, singular or mass
-13. 	# NNS 	Noun, plural
-14. 	# NNP 	Proper noun, singular
-15. 	# NNPS 	Proper noun, plural
+    	# NNS 	Noun, plural
+    	# NNP 	Proper noun, singular
+    	# NNPS 	Proper noun, plural
         
         desired_POS=["NN", "NNS", "NNP", "NNPS"]
        
