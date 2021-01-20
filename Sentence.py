@@ -1,3 +1,6 @@
+from collections import Counter
+
+
 class Sentence:
     def __init__(self, id_sentence, sentiment_value, sentiment, xml_name):
         self._number_of_tokens = 0
@@ -8,7 +11,8 @@ class Sentence:
         self._id_sentence = id_sentence
         self._sentiment = sentiment
         self.personal_opinion = False
-        self._joined_string = ''.join(self._tokens)
+        self._nouns_occurrences = Counter()
+        
 
     @property
     def number_of_tokens(self):
@@ -42,14 +46,6 @@ class Sentence:
     def sentiment(self):
         return self._sentiment
 
-    #@property
-    #def personal_opinion(self):
-    #    return self._personal_opinion
-    
-    #@personal_opinion.setter
-    #def personal_opinion_set(self):
-    #    self._personal_opinion = True
-
     @number_of_tokens.setter
     def number_of_tokens(self, number_of_tokens):
         self._number_of_tokens = number_of_tokens
@@ -57,15 +53,21 @@ class Sentence:
     def add_token(self, new_token):
         self._tokens.append(new_token)
 
+    def add_noun(self, new_noun):
+        self._nouns_occurrences[new_noun] += 1
+
+    def retrieve_nouns(self):
+        return self._nouns_occurrences
+
     def add_aspect(self, aspect):
         self._aspects.append(aspect)
 
     def __str__(self):
         return ' '.join(self._tokens)
         
-    #the file must be already open before using this function
+    
     def sentence_test(self, file_destiny):
-        with open(file_destiny, 'a', encoding="utf-8") as f:
+        with open(file_destiny, 'a+', encoding="utf-8") as f:
             print("Sentiment value of this sentence: ", self._sentiment_value, file=f)
             print("Number of tokens in this sentence: ", self._number_of_tokens, file=f)
             print("aspects in this sentence: ", file=f)
@@ -77,9 +79,3 @@ class Sentence:
             print(self.__str__(), file=f)
             print("-------------------------", file=f)
 
-
-    '''@property
-    def joined_string(self):
-        return ''.join(self._tokens)
-    '''
-        
