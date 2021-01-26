@@ -12,7 +12,7 @@ class Sentence:
         self._sentiment = sentiment
         self.personal_opinion = False
         self._nouns_occurrences = Counter()
-        
+        self._joined_string = ''.join(self._tokens)
 
     @property
     def number_of_tokens(self):
@@ -45,6 +45,14 @@ class Sentence:
     @property
     def sentiment(self):
         return self._sentiment
+
+    #@property
+    #def personal_opinion(self):
+    #    return self._personal_opinion
+    
+    #@personal_opinion.setter
+    #def personal_opinion_set(self):
+    #    self._personal_opinion = True
 
     @number_of_tokens.setter
     def number_of_tokens(self, number_of_tokens):

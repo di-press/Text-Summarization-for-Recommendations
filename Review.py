@@ -10,11 +10,12 @@ from pathlib import Path
 
 class Review:
     def __init__(self, file):
+        self._id = 0
         self._xml_name = "not instantiated yet"
         self._sentences = []
         self._number_of_sentences = 0
         self._occurrences_of_each_aspect = Counter()
-        self._aspects = ["not instantiated yet"]
+        self._aspects = []
         self._average_sentiment = 0
         self._raw_review = ""
         self._nouns_occurrences = Counter()
@@ -22,6 +23,14 @@ class Review:
         self.review_extractor(file)
         
     
+    @property
+    def id(self):
+        return self._id
+
+    @id.setter
+    def id(self, id):
+        self._id = id
+
     @property
     def sentences(self):
         '''
@@ -48,6 +57,15 @@ class Review:
     @property
     def xml_name(self):
         return self._xml_name
+    
+    @property
+    def nouns_occurrences(self):
+        return self._nouns_occurrences
+
+    @property
+    def raw_review(self):
+        return self._raw_review
+
 
 
 
@@ -75,8 +93,8 @@ class Review:
         
         # https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html
         # NN 	Noun, singular or mass
-    	# NNS 	Noun, plural
-    	# NNP 	Proper noun, singular
+     	# NNS 	Noun, plural
+     	# NNP 	Proper noun, singular
     	# NNPS 	Proper noun, plural
         
         desired_POS=["NN", "NNS", "NNP", "NNPS"]
@@ -99,7 +117,6 @@ class Review:
             id = sentence.attrib["id"]
             sentiment_value = sentence.attrib["sentimentValue"]
             sentiment = sentence.attrib["sentiment"]
-            
             new_sentence = Sentence.Sentence(id, sentiment_value, sentiment, filename)
             self._number_of_sentences += 1
             sentiment_value = int(sentiment_value)            
@@ -118,23 +135,23 @@ class Review:
                             current_word = token_child.text.lower()
 
                             if current_word in first_person_pronoun:
-                               
+                                #print(current_word)
                                 #personal opinion is setted to True:
                                 new_sentence.personal_opinion = True
 
                             new_sentence.add_token(token_child.text) 
 
+                            #if token_child.text.lower() in aspects:
+                            #new_sentence.add_noun(token_child.text.lower())  
+                            #self._nouns_occurrences[token_child.text.lower()] += 1
 
                             if token_child.text not in punctuation:
 
                                 word_counter += 1
 
                         if token_child.tag == "POS" and token_child.text in desired_POS:
-                            
                             for token_child in token:
-                                
                                 if token_child.tag == "word":
-                                    
                                     new_sentence.add_noun(token_child.text.lower())  
                                     self._nouns_occurrences[token_child.text.lower()] += 1
                                     #print(token_child.text.lower())
@@ -144,7 +161,11 @@ class Review:
             self._raw_review += new_sentence.__str__()
 
         self._average_sentiment = self._average_sentiment / self._number_of_sentences
-       
+       # print(self._sentences)
+
+        
+        #self._occurrences_of_each_aspect = Counter(self._aspects)
+        
             
 
     def review_test(self, file_destiny):
@@ -155,12 +176,22 @@ class Review:
             print("\tAverage sentiment of this review: ", self._average_sentiment, file=f)
             print("\tNumber of sentences in this review: ", self._number_of_sentences, file=f)
             print("\tNouns in this review: ", self._nouns_occurrences, file=f)
+            #print("\tAspects and it's occurrence in this review: ", file=f)
+            
+            #for aspect in self._occurrences_of_each_aspect:
+                #print("aspect: ", aspect," number of occurrences: ", self.occurrences_of_each_aspect[aspect], file=f)
+
             print("\n---sentences in this review ---\n", file=f)
 
             for sentence in self._sentences:
                 print("\t\tNumber of tokens in this sentence: ",sentence.number_of_tokens, file=f)
                 print("\t\tSentiment value of this sentence: ", sentence.sentiment_value, file=f)
                 print("\t\tPersonal opinions in this sentence: ", sentence.personal_opinion, file=f)
+
+                #print("\t\tAspects in this sentence: ", file=f)
+                #for aspect in sentence.aspects:
+                    #print("\t\t\t-", aspect, file=f)
+
                 print("\t\t", sentence.__str__(), file=f)
 
                 print("---------------------------------------------------------", file=f)
@@ -169,15 +200,20 @@ class Review:
 
      
         
-
+    
+# test for instantiating all the reviews in the "single_reviews_corenlp" folder
 if __name__ == '__main__':
 
 
-    
     current_directory = Path.cwd()
-    file = Path(current_directory, "single_reviews_corenlp", "2145", "2145_1.xml")
     
-    new_review = Review(file)
-    
-    new_review.review_test("review_test.txt")
+    movies_directory = Path(current_directory, "single_reviews_corenlp")
+
+    for single_movie_directory in movies_directory.iterdir():
+        
+        for filename in single_movie_directory.iterdir():
+            
+            new_review = Review(filename)
+            new_review.review_test("review_test.txt")
+
     

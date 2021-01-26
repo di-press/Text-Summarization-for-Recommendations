@@ -1,5 +1,5 @@
-#arrumar o "apos erro"
-import counter_occurrences as count_occur
+
+#import counter_occurrences as count_occur
 import numpy as np
 
 def KL_divergence(frequency_corpora_reviews, frequency_corpora_BNC):
@@ -9,7 +9,7 @@ def KL_divergence(frequency_corpora_reviews, frequency_corpora_BNC):
 
     Args:
         frequency_corpora_reviews (int): The number of occurrences of the noun in the reviews
-        corpora; it's the term "ca" in the formula described in the paper
+        corpora of a given movie; it's the term "ca" in the formula described in the paper
 
         frequency_corpora_BNC (int): The number of occurrences of the noun in the BNC
         corpora; it's the term "cb" in the formula described in the paper
@@ -20,7 +20,7 @@ def KL_divergence(frequency_corpora_reviews, frequency_corpora_BNC):
     """
     
     #by definition, if the number of occurrences of the noun in the BNC
-    #corpora is zero, that means that the kl value for this noun in infinity:
+    #corpora is zero, that means that the kl value for this noun is infinity:
     if frequency_corpora_BNC == 0:
         return np.inf
 
@@ -30,6 +30,7 @@ def KL_divergence(frequency_corpora_reviews, frequency_corpora_BNC):
 
     return (KL)
 
+'''
 def KL_nouns_values(destiny_file):
 
     """Computes the KL value for each noun present in the corpora of reviews,
@@ -70,8 +71,8 @@ def KL_nouns_values(destiny_file):
     
     return KL_values
 
-
-def epsilon_aspects_extraction(KL_values, threshold, destiny_file):
+'''
+def epsilon_aspects_extraction(KL_values, threshold):
 
     """Given a certain threshold for KL divergence, this function extracts 
         aspects from the KL_values dict
@@ -82,8 +83,6 @@ def epsilon_aspects_extraction(KL_values, threshold, destiny_file):
 
         threshold (double): The Epsilon cited in the paper
 
-        destiny_file(str): the file that is going to contain all the
-        aspects extracted
 
     Returns:
         aspects(dict): A dict that relates each aspect to it's KL value
@@ -94,8 +93,8 @@ def epsilon_aspects_extraction(KL_values, threshold, destiny_file):
         if KL_values[noun] > threshold:
             aspects[noun] = KL_values[noun]
     
-    with open(destiny_file, 'a+', encoding="utf-8") as f:
-        print(aspects, file=f)
+    #with open(destiny_file, 'a+', encoding="utf-8") as f:
+        #print(aspects, file=f)
 
     return aspects
 
