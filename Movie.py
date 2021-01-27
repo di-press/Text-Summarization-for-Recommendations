@@ -28,12 +28,14 @@ class Movie:
             
             new_review = Review.Review(filename)
             
-            self.reviews.append(new_review)
-            self.number_of_reviews += 1
-            new_review.id = self.number_of_reviews
-            
-            for noun in new_review.nouns_occurrences:
-                self.nouns_occurrences[noun] += new_review.nouns_occurrences[noun] 
+            if new_review:
+                
+                self.reviews.append(new_review)
+                self.number_of_reviews += 1
+                new_review.id = self.number_of_reviews
+                
+                for noun in new_review.nouns_occurrences:
+                    self.nouns_occurrences[noun] += new_review.nouns_occurrences[noun] 
 
 
     def KL_values(self):
