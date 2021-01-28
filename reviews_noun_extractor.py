@@ -1,4 +1,4 @@
-# remember to change your directories according to your configurations!
+# não vou usar mais esse módulo
 
 import xml.etree.ElementTree as ET
 import collections

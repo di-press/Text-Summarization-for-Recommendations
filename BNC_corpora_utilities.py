@@ -15,7 +15,9 @@ def BNC_noun_parser (xml_name,
                      second_attribute,     
                      parsed_tokens):         
 
-    """This function extracts all the present nouns in the current xml file.
+    """This function extracts all the present nouns in the BNC xml files.
+        It is used only to create BNC_nouns.db, by writing in a file
+        each noun per line, followeb by its occurrence.
        
 
     Args:
@@ -72,7 +74,13 @@ def BNC_noun_parser (xml_name,
 
 
 def extract_BNC_nouns():
-    
+    '''
+    Function to trasverse all the BNC xml files. Only used if you need to generate
+    BNC_nouns.db
+
+    Return:
+    parsed_tokens (Counter): map a given noun and its BNC number of occurrences
+    '''
     desired_path = Path.cwd()
     # check if your downloaded BNC folder is in the format above:
     desired_path = Path(desired_path, "ota_20.500.12024_2554", "2554", "download", "Texts")
@@ -97,19 +105,15 @@ def extract_BNC_nouns():
 
 def create_BNC_frequency_files(parsed_tokens):
 
-    #alphabet_string = string.ascii_lowercase
-    #alphabet_list = list(alphabet_string)
+    '''
+    Function only needed if generating BNC_nouns.db is desired.
+    It prints all founded nouns and its frequency in txt files
+    '''
 
     BNC_frequency_folder = Path.cwd() / "BNC_noun_frequencies"
     BNC_frequency_folder.mkdir()
 
 
-    #for letter in alphabet_list:
-
-        #temp_path = BNC_frequency_folder
-        #letter = letter + ".txt"
-        #temp_path /= letter
-        #temp_path.touch()
     
     for word in parsed_tokens:
         
@@ -122,21 +126,18 @@ def create_BNC_frequency_files(parsed_tokens):
 
                 print(word, parsed_tokens[word], file=f)
     
-
+# only used for test:
 def frequency_dict_nouns():
     
     parsed_tokens = extract_BNC_nouns()
     create_BNC_frequency_files(parsed_tokens)
 
 
-# 251679 itens aproximadamente
-# 251679 / 1500 = 168
-from pathlib import Path
-from collections import Counter
-import sqlite3
-import time
 
 def create_db():
+    '''
+    Inser each noun found in BNC and its occurrence in the BNC_nouns.db
+    '''
     
     connection = sqlite3.connect("BNC_nouns.db")
     cursor = connection.cursor()
@@ -185,6 +186,20 @@ def create_db():
 
 
 def search_noun_BNC_db(movie_nouns_occurrences):
+    '''
+    Search noun in BNC_nouns.db and retrieves it values: the noun(text) and its frequency (int).
+    Later, maps each noun with its frequency in a movie corpora and in BNC corpora.
+
+    Args:
+    movie_nouns_occurrences (dict): dict containing a noun present in a movie corpora and its frequency
+    in movie reviews
+
+
+    Return:
+
+    nouns_corporas_occurrences (tuple): (noun string, frequency of this noun in review corpora, frequency of this noun in BNC)
+
+    '''
 
     connection = sqlite3.connect("BNC_nouns.db")
     cursor = connection.cursor()

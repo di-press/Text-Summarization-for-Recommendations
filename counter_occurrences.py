@@ -1,3 +1,5 @@
+# não vou usar mais esse módulo
+
 import collections
 from itertools import chain
 

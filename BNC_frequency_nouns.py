@@ -1,3 +1,6 @@
+# não vou usar mais esse módulo
+'''
+
 import xml.etree.ElementTree as ET
 import collections
 from itertools import chain
@@ -70,7 +73,7 @@ def BNC_noun_parser (xml_name,
 
 
 def extract_BNC_nouns():
-    '''
+    
         Function that iterates through all xml files
         in BNC, and all the extracted nouns and its frequencies
         are stored in a Counter object (parsed_tokens).
@@ -83,7 +86,7 @@ def extract_BNC_nouns():
         parsed_tokens (Counter) : store each noun and its occurrence number
         in BNC
 
-    '''
+    
     #current path:
     desired_path = Path.cwd()
     # check if your downloaded BNC folder is in the format above:
@@ -109,14 +112,14 @@ def extract_BNC_nouns():
 
 def create_BNC_frequency_files(parsed_tokens):
 
-    '''
+    
         Function to create a subfolder and populate with ".txt" files,
         containing the nouns and its frequency.
         As an example, the file "a.txt" contains all extracted nouns with the initial
         letters "a", one word per line, followed by its frequency:
 
         area 58048
-    '''
+    
 
 
     BNC_frequency_folder = Path.cwd() / "BNC_noun_frequencies"
@@ -141,19 +144,18 @@ def create_BNC_frequency_files(parsed_tokens):
     
 
 def frequency_dict_nouns():
-    '''
+    
         Function responsible for executing all the process
         of parsing the nouns in BNC and generating a new directory,
         in which each noun and its frequency are stored for further
         processings.
-    '''
+    
     
     parsed_tokens = extract_BNC_nouns()
     create_BNC_frequency_files(parsed_tokens)
 
 
 
-'''
 The function above probably won't be used anymore
 
 def BNC_nouns_extractor(root_directory, file_destiny):
@@ -193,7 +195,7 @@ def BNC_nouns_extractor(root_directory, file_destiny):
 
     return (parsed_tokens)
 
-'''
+
 
 #test:
 if __name__ == '__main__':
@@ -202,3 +204,4 @@ if __name__ == '__main__':
 
 
 
+'''

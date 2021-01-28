@@ -1,6 +1,4 @@
-#código auxiliar para criar objetos do tipo sentença; funciona perfeitamente
-#funciona perfeitamente
-#cria objetos sentenças dado um xml e o imprime no arquivo de destino
+# não vou usar mais esse módulo:
 import xml.etree.ElementTree as ET
 import collections
 from itertools import chain

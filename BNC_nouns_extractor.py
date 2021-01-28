@@ -1,3 +1,5 @@
+# não vou usar masi esse .py ...
+
 import xml.etree.ElementTree as ET
 import collections
 from itertools import chain

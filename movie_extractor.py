@@ -1,4 +1,6 @@
-#código oficial, falta arrumar o sentence filtring (test_filtered_sentences.txt) acho que só flata complementar..nao arrumar!
+# não vou usar mais esse módulo
+
+'''
 import xml.etree.ElementTree as ET
 import collections
 import os 
@@ -201,3 +203,4 @@ if __name__ == '__main__':
     test_movie_extractor(set_of_movies)
     test_sentence_filtering(set_of_movies)
     #test_directory(directory_path)
+'''

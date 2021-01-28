@@ -1,9 +1,4 @@
-#guardar as reviews com sentimentos positivos e mto positivos
-#ver se tem aspectos nessa review
-#se tiver, contar o numero de ocorrencias do aspecto e salvar esse numero dessa review em algum lugar Y,
-# # alem tb de slavar o sentimento dessa reviews em Y
-#calcular o score a partir das informaçõe armazenadas em Y
-
+# não vou usar mais esse módulo
 
 
 import xml.etree.ElementTree as ET
