@@ -21,11 +21,11 @@ start = time.perf_counter()
 nlp = StanfordCoreNLP('http://localhost:9000')
 
 desired_path = Path.cwd()
-desired_path = Path(desired_path, "Separated Reviews")
+desired_path = Path(desired_path, "Separated Reviews error")
 desired_path = desired_path.absolute()
 
 destiny_folder = Path.cwd()
-destiny_folder = Path(destiny_folder, "single_reviews_corenlp")
+destiny_folder = Path(destiny_folder, "single_reviews_corenlp_error")
 
 if not destiny_folder.is_dir():
     destiny_folder.mkdir()
@@ -37,10 +37,8 @@ for file in desired_path.iterdir():
         line = f.readlines() 
         review_text += "".join(line)
 
-    # CoreNLP parser doesn't recognize the % char:
     review_text = review_text.replace("%", "percent")
     
-    # avoid that an empty string is parsed:
     if review_text == "":
         continue
 
@@ -48,13 +46,16 @@ for file in desired_path.iterdir():
                 properties={
                     'annotators': 'sentiment',
                     'outputFormat': 'xml',
-                    'timeout': 70000, 
+                    'timeout': 50000, 
                 })
 
     filename = file.name.split(".")
     filename = filename[0] + ".xml"
     directory_name = file.name.split("_")
     directory_name = directory_name[0]
+    #print(filename)
+    #print(directory_name)
+
 
     directory = Path(destiny_folder, directory_name)
  
@@ -66,9 +67,7 @@ for file in desired_path.iterdir():
     error_string = "Could not handle incoming annotation"
     timeout_string = "CoreNLP request timed out. Your document may be too long."
 
-    # if the server returns an error message, nothing needs to be generated
     if server_answer == error_string or server_answer == timeout_string:
-        
         print("error in file: ", filename)
 
     else:

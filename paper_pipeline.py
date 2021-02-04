@@ -1,22 +1,24 @@
 import KL_divergence
 import Movie
 from pathlib import Path
-#import BNC_corpora_utilities 
+import BNC_corpora_utilities 
 import numpy as np
 import time
+import summarizer_pipeline
 
 
-
-def paper_pipeline(KL_threshold, top_k_number, generate_BNC_db, generate_single_corenlp_reviews):
-
-    '''
-        This function follows the logical pipeline described in the paper for each item (movie).
-        It produces the final summarization for each desired item.
-    '''
+def paper_pipeline(KL_threshold, 
+                        top_k_number,  
+                        generate_BNC_db, 
+                        generate_single_corenlp_reviews,
+                        disambiguation, 
+                        tf_idf_threshold,
+                        babelfy_API_key, 
+                        discard_threshold, 
+                        number_of_sentences_in_summary):
 
     current_directory = Path.cwd()
-    # single_reviews_corenlp is a directory containing other folders inside it, in which
-    # there are .txt files representing the item reviews
+
     movies_directory = Path(current_directory, "single_reviews_corenlp")
        
     for single_movie_directory in movies_directory.iterdir():
@@ -27,37 +29,69 @@ def paper_pipeline(KL_threshold, top_k_number, generate_BNC_db, generate_single_
         new_movie.KL_values()
 
         new_movie.aspects_score = KL_divergence.epsilon_aspects_extraction(new_movie.KL_nouns_values, KL_threshold)
-        # above, the top k aspects of a given itme is evaluated:
         new_movie.top_k_aspects_evaluation(top_k_number)
-        # in the sentence filtering phase, the sentences there are going to feed the
-        # summarizator are selected:
+        print("top-k aspects were evaluated.")
         new_movie.sentence_filtering()
+        print("end of filtering sentence.")
 
-        with open("filtered_sentences_test.txt", 'a+', encoding="utf-8") as f:
-   
-                print(new_movie.filtered_sentences, file=f)
-
+        
+        summarizer_pipeline.summarizer_pipeline(disambiguation, 
+                                                new_movie, 
+                                                tf_idf_threshold, 
+                                                babelfy_API_key,
+                                                discard_threshold, 
+                                                number_of_sentences_in_summary)
         
 
 if __name__ == '__main__':
 
 
-    KL_threshold=-20
+    # if you don't have BNC_nouns.db, set to "True":
+    generate_BNC_db = False
+    
+    #if you dont have reviews of an item parsed by CoreNLP, set to "True":
+    # (see in the README the conditions to adapt your dataset)
+    generate_single_corenlp_reviews = False
+    
+    # if disambiguation is desired, set to "True".
+    # disambiguation improves the results, so setting it to "True" is generally desired.
+    disambiguation = True
+
+    # the KL_threshold described in the paper to classify a noun as an aspect:
+    KL_threshold = -50
+
     # top_k_number: the number of "top_k" aspects ranked; as an example, if top_k_number = 5,
     # the top-5 aspects of an item are selected
-    top_k_number=20
+    top_k_number = 50
 
-    # if you don't have the BNC_nouns.db, set to True:
-    generate_BNC_db = False
+    # in the summarization phase, the sentences having a tf_idf value greater
+    # than a certain threshold are included in the centroid embbeding construction:
+    tf_idf_threshold = 0.2
 
-    # if you have the dataset, or want to adapt yours under certain conditions described in the README,
-    # set to True:
-    generate_single_corenlp_reviews = False
+    # babelfy_API_key is your key to acces the Babelfy services.
+    # you should register to obtain a key. You have a limited
+    # number of babelcoins daily.
+    babelfy_API_key = '08e51760-1296-41a0-bfb5-8d9545674df8'
+
+    # the similarity to discard a sentence to be included in the summary,
+    # to avoid redundancy:
+    discard_threshold = 0.8
+
+    # number of the desired sentences to be in the summary:
+    number_of_sentences_in_summary = 6
 
     start = time.perf_counter()
-    # all the paper pipeline is rpresented in this function:
-    paper_pipeline(KL_threshold, top_k_number, generate_BNC_db, generate_single_corenlp_reviews)
 
+    # function that covers all the pipeline described in the paper:
+    paper_pipeline(KL_threshold, 
+                    top_k_number, 
+                    generate_BNC_db, 
+                    generate_single_corenlp_reviews, 
+                    disambiguation, 
+                    tf_idf_threshold,
+                    babelfy_API_key,
+                    discard_threshold,
+                    number_of_sentences_in_summary)
 
     end = time.perf_counter()
     # elapsed time is in seconds:

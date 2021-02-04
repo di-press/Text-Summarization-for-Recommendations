@@ -1,6 +1,6 @@
 
+#import counter_occurrences as count_occur
 import numpy as np
-
 
 def KL_divergence(frequency_corpora_reviews, frequency_corpora_BNC):
 
@@ -26,9 +26,10 @@ def KL_divergence(frequency_corpora_reviews, frequency_corpora_BNC):
 
     division_term = (frequency_corpora_reviews/frequency_corpora_BNC)
     second_term= np.log(division_term)
-    KL = frequency_corpora_reviews*second_term
+    KL= frequency_corpora_reviews*second_term
 
     return (KL)
+
 
 
 def epsilon_aspects_extraction(KL_values, threshold):
@@ -52,6 +53,13 @@ def epsilon_aspects_extraction(KL_values, threshold):
         if KL_values[noun] > threshold:
             aspects[noun] = KL_values[noun]
     
+    #with open(destiny_file, 'a+', encoding="utf-8") as f:
+        #print(aspects, file=f)
 
     return aspects
 
+#temporary tests:
+if __name__ == '__main__':
+ 
+    dict_kl = KL_nouns_values("KL_nouns_values.txt")
+    aspects = epsilon_aspects_extraction(dict_kl, 2000, "aspects_values.txt")

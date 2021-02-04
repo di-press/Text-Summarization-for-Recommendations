@@ -1,5 +1,4 @@
 
-# need to be commented!
 import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
@@ -32,9 +31,12 @@ def idf(dataframe):
         array_row_values = np.array(dataframe.iloc[row])
         #print(array_row_values)
         number_document_occurrences = 0
+        
         for document_index in array_row_values:
+            
             if document_index > 0:
                 number_document_occurrences = number_document_occurrences + 1
+        
         total_document_occurences.append(number_document_occurrences)
 
     number_total_documents = len(dataframe.columns)
@@ -42,9 +44,10 @@ def idf(dataframe):
     i = 0
 
     for value in total_document_occurences:
-        value = number_total_documents/value
-        value = math.log2(value)
-        total_document_occurences[i] = value
+        
+        idf_value = number_total_documents/value
+        idf_value = math.log2(idf_value)
+        total_document_occurences[i] = idf_value
         i = i + 1 
     
     dataframe['idf'] = total_document_occurences 
@@ -78,12 +81,13 @@ def tf_idf(dataframe):
 
 '''
     this function returns the words in the reviews that were 
-    selected to be part of the centroid
+    selected to be part of the centroid. Each review
+    is considered as a document to tf-idf algorithm
 '''
 
-def tf_idf_centroid_selection(review, threshold):
+def tf_idf_centroid_selection(movie_reviews, threshold):
 
-    text_data = np.array(review)
+    text_data = np.array(movie_reviews)
 
     # create the bag of words feature matrix
     count = CountVectorizer()
@@ -100,8 +104,11 @@ def tf_idf_centroid_selection(review, threshold):
 
     auxiliar_dataframe = auxiliar_dataframe.transpose()
     auxiliar_dataframe = auxiliar_dataframe.applymap(tf) 
+    #pd.set_option('display.max_rows', None)
+    #print("auxiliar dataframe: ", auxiliar_dataframe)
 
     number_total_documents = len(auxiliar_dataframe.columns)
+    #print("number of total documents: ", number_total_documents)
 
     dataframe_final = idf(auxiliar_dataframe)  
 
@@ -113,7 +120,7 @@ def tf_idf_centroid_selection(review, threshold):
     # word2
     # ...
     # wordn 
-    print(dataframe_tf_idf)
+    #print(dataframe_tf_idf)
 
     last_columns_of_values = (-1 * number_total_documents)
 
@@ -121,34 +128,40 @@ def tf_idf_centroid_selection(review, threshold):
     
     dictionary = dataframe_only_columns.to_dict(orient="index")
 
-    selected_centroid_words = {}
+    selected_centroid_words = []
     
     for word in dictionary:      
-        word_documents_value = dictionary[word]
+       if word != 'bn':
+            word_documents_value = dictionary[word]
 
-        for documents in word_documents_value:
+            for documents in word_documents_value:
 
-            tf_idf_value = word_documents_value[documents]
+                tf_idf_value = word_documents_value[documents]
 
-            if(tf_idf_value > threshold):
+                if(tf_idf_value > threshold):
 
-                selected_centroid_words[word] = 1
-
-    selected_centroid_words = list(selected_centroid_words)
+                    selected_centroid_words.append(word)
+    # set doesn't allow duplicated words:
+    selected_centroid_words = set(selected_centroid_words)
     
     return selected_centroid_words
 
 
 if __name__ == "__main__":
 
-
-    list1 = ['To do is to be. to be is to do',
-                        'To be or not to be. Ai am what Ai am',
-                        'Ai think therefore Ai am do be do be do',
-                        'do do do da da da let it be let it be']
+    babelsynsets = ['bn:00085522v bn:00045772n bn:00079017n bn:00082195v bn:00021383n', 
+    'bn:00091037v bn:00045161n bn:00041611n bn:03417526n bn:00045018n', 
+    'bn:00022991n bn:00055408n bn:00014137n bn:03335997n'] 
 
 
-    tf_idf_centroid_selection(list1, 0)
+    list1 = ["Down to You: Boy meets girl, they fall in love, relationship cools, couple breaks up and each is tortured by thoughts of What if",
+                        " I decided to see this movie because I enjoyed Julia Stiles' performance in 10 Things I Hate About You. However, after seeing the marquee poster - a knockoff of The Very Thought of You - I scaled down my expectations and braced for a painful two hours. My prediction was partially correct. Unlike the typical teen oriented romantic comedy there was an attempt to infuse this movie with a bit of reality. Unfortunately, the writers apparently could not decide if they wanted to make a romantic comedy or a serious relationship movie. The result is a confused mess: a ludicrous subplot about a student's burgeoning career as a pornographer gets far more screen time than does the terrified couple trying to come to grips with a potential pregnancy. The second problem is the chemistry between Stiles and Freddie Prinze Jr - there is none (I blame the casting director for this). Although both actors have screen presence, they don't click as a duo, consequently, their interactions- especially the fight scenes -do not ring true. Their job is made doubly difficult by having to utter stupid lines. This movie has been targeted to a certain market, and will probably do well. Too bad." ,
+                        "Down to You was slammed by critics when it was released, claiming it to be unoriginal, unfunny and really a waste of time. Pay no attention to them. It is rare for romantic comedies to be entirely original [they are after all dealing with love], but Down to You does have it's moments differing it from most of the recently released teen comedies [to which it has constantly been compared]. Through narration by both protagonists the audience is able to see the development of both characters in the long-term and how they ultimately react to each other. Freddie Prinze Jr and Julia Stiles were perfectly cast and behaved as mature young adults for the majority of the film [sparing the audience from cliched teen talk]. They leave the zaniness to their co-stars, which was a good move. The film is more of a love story then most recent teen flicks dealing mainly with physical attraction or opposites attract. One problem with Down to You however is it's not presented well enough to keep the audience interested. Perhaps in the hands of a more capable director this would be achieved, as I got a bit bored with a few of the scenes and some jokes really fall flat. Because of this, it's not as memorable as other teen flicks such as 10 Things or Scream, even. as it's pacing is quite slow. It's saving grace is the cast. Henry Winkler gives a comic performance as Prinze's celebrity-chef father and Zak Orth plays Prinze's friend turned movie- star-friend with gutso. Selma Blair gave a sultry performance but lacked development making her nothing more than the porn star girl. Compared to the other three major teen romance flicks of the year (Loser, Whatever it Takes, Boys and Girls) Down to You is indeed one of the finest. It just needed more oomph to make it more memorable. 7/10"]
+
+
+    result = tf_idf_centroid_selection(babelsynsets, 0.2)
+
+    print(result)
                 
 
 
