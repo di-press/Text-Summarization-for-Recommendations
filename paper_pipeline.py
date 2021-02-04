@@ -71,7 +71,7 @@ if __name__ == '__main__':
     # babelfy_API_key is your key to acces the Babelfy services.
     # you should register to obtain a key. You have a limited
     # number of babelcoins daily.
-    babelfy_API_key = '08e51760-1296-41a0-bfb5-8d9545674df8'
+    babelfy_API_key = 'insert your API key here'
 
     # the similarity to discard a sentence to be included in the summary,
     # to avoid redundancy:
