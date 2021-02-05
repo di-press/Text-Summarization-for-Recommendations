@@ -1,5 +1,3 @@
-
-#import counter_occurrences as count_occur
 import numpy as np
 
 def KL_divergence(frequency_corpora_reviews, frequency_corpora_BNC):
@@ -41,7 +39,7 @@ def epsilon_aspects_extraction(KL_values, threshold):
         KL_values (dict): dict containing each noun in the corpora review
         associated with it's KL value
 
-        threshold (double): The Epsilon cited in the paper
+        threshold (double): The Epsilon cited in the paper to extract aspects
 
 
     Returns:

@@ -126,6 +126,7 @@ def create_BNC_frequency_files(parsed_tokens):
 
                 print(word, parsed_tokens[word], file=f)
     
+    
 # only used for test:
 def frequency_dict_nouns():
     

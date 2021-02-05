@@ -9,7 +9,7 @@ def disambiguate_raw_reviews(all_reviews, babelfy_API_key):
     all_reviews is a list containing all  reviews of a movie.
     '''
     wsd = WrapperWSD()
-    print("if you receive 'zero division' error, it's because your babelsynset_key has expired")
+    print("if you receive 'zero division', 'Keyerror[0]' error or 'empty vocabulary', it's because your babelsynset_key has expired")
 
     for review in all_reviews:
         #print("raw review :", review.raw_review)
@@ -30,13 +30,15 @@ def disambiguate_raw_reviews(all_reviews, babelfy_API_key):
 
             review.add_noun_and_babelsynset(word_and_babelsynset)
         
-            
+
+
+
 def disambiguate_filtered_sentence(all_sentences, babelfy_API_key):
     '''
     all_sentences is a list containing all  filtered sentences of a movie
     '''
     wsd = WrapperWSD()
-    print("if you receive 'zero division' error, it's because your babelsynset_key has expired")
+    print("if you receive 'zero division', 'Keyerror 0' or 'empty vocabulary' error, it's because your babelsynset_key has expired")
     for filtered_sentence in all_sentences:
         
         if babelfy_API_key == "None":

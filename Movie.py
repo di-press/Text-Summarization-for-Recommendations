@@ -2,8 +2,8 @@ from collections import Counter
 import Sentence as Sentence
 import Review as Review
 from pathlib import Path
-import BNC_corpora_utilities as BNC_corpora_utilities
-import KL_divergence as KL_divergence
+import BNC_corpora_utilities 
+import KL_divergence 
 
 
 class Movie:
@@ -22,6 +22,7 @@ class Movie:
         self.movie_extractor(single_movie_directory)
 
 
+    
     def movie_extractor(self, single_movie_directory):
 
         for filename in single_movie_directory.iterdir():
@@ -38,6 +39,7 @@ class Movie:
                     self.nouns_occurrences[noun] += new_review.nouns_occurrences[noun] 
 
 
+    
     def KL_values(self):
 
         nouns_frequencies_in_corporas = BNC_corpora_utilities.search_noun_BNC_db(self.nouns_occurrences)
@@ -46,10 +48,7 @@ class Movie:
 
             noun = noun_values[0]
             frequency_in_reviews = noun_values[1]
-            frequency_in_BNC = noun_values[2]
-            #print("noun: ", noun)     
-            #print(" frequency in reviews: ", frequency_in_reviews)
-            #print(" frequency in BNC: ", frequency_in_BNC)       
+            frequency_in_BNC = noun_values[2]      
 
             noun_KL_value = KL_divergence.KL_divergence(frequency_in_reviews, frequency_in_BNC)
 
@@ -67,6 +66,8 @@ class Movie:
         for x in sorted_aspects[0:k]:
             self.top_k_aspects.append(x[0])
 
+   
+    
     def aspect_scoring(self):
 
         for aspect in self.aspects_score:
@@ -81,6 +82,8 @@ class Movie:
             
             self.aspects_score[aspect] = aspect_score
 
+    
+    
     def sentence_filtering(self):
         
         for review in self.reviews:
@@ -100,7 +103,6 @@ class Movie:
     def movie_instantiating_test(self):
 
         print("processing nouns of movie")
-        #nouns = BNC_corpora_utilities.nouns_occurrences_BNC_count(self.nouns_occurrences)
         print("finish processing nouns")
 
         with open("movie_instantiating_test3.txt", "a+", encoding="utf-8") as f:
@@ -109,7 +111,6 @@ class Movie:
             print("number of reviews: ", self.number_of_reviews, file=f)
             print("nouns occurrences: ", self.nouns_occurrences, file=f)
             print("\t(noun in this movie, occurrences in movie, occurrences in BNC)", file=f)
-            #print("\t",nouns, file=f)
             print("reviews information: ", file=f)
 
 

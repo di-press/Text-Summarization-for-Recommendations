@@ -120,7 +120,7 @@ def tf_idf_centroid_selection(movie_reviews, threshold):
     # word2
     # ...
     # wordn 
-    #print(dataframe_tf_idf)
+    print(dataframe_tf_idf)
 
     last_columns_of_values = (-1 * number_total_documents)
 
