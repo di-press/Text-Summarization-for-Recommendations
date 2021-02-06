@@ -86,15 +86,15 @@ if __name__ == '__main__':
     disambiguation = True
 
     # the KL_threshold described in the paper to classify a noun as an aspect:
-    KL_threshold = -70
+    KL_threshold = -20
 
     # top_k_number: the number of "top_k" aspects ranked; as an example, if top_k_number = 5,
     # the top-5 aspects of an item are selected
-    top_k_number = 30
+    top_k_number = 50
 
     # in the summarization phase, the sentences having a tf_idf value greater
     # than a certain threshold are included in the centroid embbeding construction:
-    tf_idf_threshold = 0.2
+    tf_idf_threshold = 0.35
 
     # babelfy_API_key is your key to acces the Babelfy services.
     # you should register to obtain a key. You have a limited
@@ -104,7 +104,7 @@ if __name__ == '__main__':
 
     # the similarity to discard a sentence to be included in the summary,
     # to avoid redundancy:
-    discard_threshold = 0.8
+    discard_threshold = 0.65
 
     # number of the desired sentences to be in the summary:
     number_of_sentences_in_summary = 10
