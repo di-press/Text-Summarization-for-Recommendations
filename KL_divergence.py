@@ -51,6 +51,7 @@ def epsilon_aspects_extraction(KL_values, threshold):
         if KL_values[noun] > threshold:
             aspects[noun] = KL_values[noun]
     
+    # only for testing:
     #with open(destiny_file, 'a+', encoding="utf-8") as f:
         #print(aspects, file=f)
 

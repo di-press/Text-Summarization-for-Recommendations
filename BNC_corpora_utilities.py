@@ -198,7 +198,7 @@ def search_noun_BNC_db(movie_nouns_occurrences):
 
     Return:
 
-    nouns_corporas_occurrences (tuple): (noun string, frequency of this noun in review corpora, frequency of this noun in BNC)
+    nouns_corporas_occurrences (list): contain tuples - (noun string, frequency of this noun in review corpora, frequency of this noun in BNC)
 
     '''
 

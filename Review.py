@@ -19,13 +19,8 @@ class Review:
         self._average_sentiment = 0
         self._raw_review = ""
         self._nouns_occurrences = Counter()
-
-        # when using disambiguation, is formed by tuples mapping a noun to each babelsynset correspondence
-        #self._nouns_and_babelsynsets = [(noun, babelsynset)]
+        # store the correspondence of a word and its babelsynset:
         self._nouns_and_babelsynsets = []
-
-        # dict mapping each babelsynset to its 300 dimensions vector (string separated by spaces)
-        #self._babelsynsets_vector = {}
 
         self.review_extractor(file)
         
@@ -40,9 +35,6 @@ class Review:
 
     @property
     def sentences(self):
-        '''
-            Returns the list of Sentence objects in a Review
-        '''
         return self._sentences
     
     @property
@@ -148,15 +140,12 @@ class Review:
                             current_word = token_child.text.lower()
 
                             if current_word in first_person_pronoun:
-                                #print(current_word)
+                        
                                 #personal opinion is setted to True:
                                 new_sentence.personal_opinion = True
 
                             new_sentence.add_token(token_child.text) 
 
-                            #if token_child.text.lower() in aspects:
-                            #new_sentence.add_noun(token_child.text.lower())  
-                            #self._nouns_occurrences[token_child.text.lower()] += 1
 
                             if token_child.text not in punctuation:
 
@@ -167,7 +156,7 @@ class Review:
                                 if token_child.tag == "word":
                                     new_sentence.add_noun(token_child.text.lower())  
                                     self._nouns_occurrences[token_child.text.lower()] += 1
-                                    #print(token_child.text.lower())
+                                    
 
             new_sentence.number_of_tokens = word_counter
             self._sentences.append(new_sentence)
@@ -179,10 +168,7 @@ class Review:
         self._average_sentiment = self._average_sentiment / self._number_of_sentences
         
         return True
-       # print(self._sentences)
-
-        
-        #self._occurrences_of_each_aspect = Counter(self._aspects)
+ 
         
             
 
@@ -194,22 +180,12 @@ class Review:
             print("\tAverage sentiment of this review: ", self._average_sentiment, file=f)
             print("\tNumber of sentences in this review: ", self._number_of_sentences, file=f)
             print("\tNouns in this review: ", self._nouns_occurrences, file=f)
-            #print("\tAspects and it's occurrence in this review: ", file=f)
-            
-            #for aspect in self._occurrences_of_each_aspect:
-                #print("aspect: ", aspect," number of occurrences: ", self.occurrences_of_each_aspect[aspect], file=f)
-
             print("\n---sentences in this review ---\n", file=f)
 
             for sentence in self._sentences:
                 print("\t\tNumber of tokens in this sentence: ",sentence.number_of_tokens, file=f)
                 print("\t\tSentiment value of this sentence: ", sentence.sentiment_value, file=f)
                 print("\t\tPersonal opinions in this sentence: ", sentence.personal_opinion, file=f)
-
-                #print("\t\tAspects in this sentence: ", file=f)
-                #for aspect in sentence.aspects:
-                    #print("\t\t\t-", aspect, file=f)
-
                 print("\t\t", sentence.__str__(), file=f)
 
                 print("---------------------------------------------------------", file=f)

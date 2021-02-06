@@ -24,6 +24,15 @@ class Movie:
 
     
     def movie_extractor(self, single_movie_directory):
+        '''
+        Function to instantiate Movie objects form the
+        files processed by CoreNLP
+
+        Parameters:
+
+            single_movies_directory(directory): the folder
+            containing each xml file parsed by CoreNLP
+        '''
 
         for filename in single_movie_directory.iterdir():
             
@@ -41,6 +50,18 @@ class Movie:
 
     
     def KL_values(self):
+      
+        '''
+        Function that computes the KL value for each noun
+        in the reviews of a movie
+
+        Parameters:
+            None
+
+        Returns:
+            None
+        '''
+        # nouns_frequencies_in_corporas: contain tuples - (noun string, frequency of this noun in review corpora, frequency of this noun in BNC)
 
         nouns_frequencies_in_corporas = BNC_corpora_utilities.search_noun_BNC_db(self.nouns_occurrences)
 
@@ -50,6 +71,7 @@ class Movie:
             frequency_in_reviews = noun_values[1]
             frequency_in_BNC = noun_values[2]      
 
+            # for each noun in a movie, its KL value is computed:
             noun_KL_value = KL_divergence.KL_divergence(frequency_in_reviews, frequency_in_BNC)
 
             self.KL_nouns_values[noun] = noun_KL_value
@@ -58,6 +80,19 @@ class Movie:
 
 
     def top_k_aspects_evaluation(self, k):
+              
+        '''
+        Function that computes top-k
+        aspects of a movie
+
+        Parameters:
+            k - the top-k number; if k=5, so
+            the top-5 aspects are evaluated.
+
+        Returns:
+            None
+        '''
+        
         #above, key=lambda x: x[1] guarantees that the dict is going to be sorted by 
         #it's score value;
         #reverse=True means the ordering is going to be in descending order
@@ -69,6 +104,20 @@ class Movie:
    
     
     def aspect_scoring(self):
+
+              
+        '''
+        Function that computes the score for
+        each aspect in a movie item
+
+        score = occurrence of the aspect in the current review * KL value os the aspect * average sentiment of the current review
+
+        Parameters:
+            None
+
+        Returns:
+            None
+        '''
 
         for aspect in self.aspects_score:
 
@@ -85,6 +134,18 @@ class Movie:
     
     
     def sentence_filtering(self):
+           
+        '''
+        Function that filters the sentences having personal information,
+        less than 5 tokens and with not positive sentiment, and
+        that don't have an aspect in it.
+
+        Parameters:
+            None
+
+        Returns:
+            None
+        '''
         
         for review in self.reviews:
 

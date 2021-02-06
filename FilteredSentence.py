@@ -13,7 +13,7 @@ class FilteredSentence:
         self._id = id
         #self._in_summary = False
         self._raw_sentence = sentence
-        self._number_of_words = len(self._raw_sentence.split())  
+        #self._number_of_words = len(self._raw_sentence.split())  
         self._preprocessed_sentence = ""
         self._preprocessed_words = []
         self._score = 0
@@ -33,10 +33,8 @@ class FilteredSentence:
 
     def preprocessing_phase(self):
 
-        #self._number_of_words = len(self._raw_sentence.split())  
         sentence = strip_punctuation(self._raw_sentence)
         sentence = remove_stopwords(sentence)
-        # sentence = sentence.lower()
         self._preprocessed_sentence = sentence
         self._preprocessed_words = sentence.split()
 
@@ -49,9 +47,6 @@ class FilteredSentence:
     def raw_sentence(self):
         return self._raw_sentence
 
-    #@property
-    #def is_in_summary(self):
-    #    return self._in_summary
 
     @property
     def score(self):
@@ -78,9 +73,6 @@ class FilteredSentence:
     def babelsynsets_words(self):
         return self._babelsynsets_words
 
-    #@babelsynsets_words.setter
-    #def babelsynsets_words(self, word_and_babelsynset):
-        #self._babelsynsets_words.append(word_and_babelsynset)
 
     @property 
     def number_of_words(self):

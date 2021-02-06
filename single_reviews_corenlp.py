@@ -12,7 +12,8 @@ def parsing_reviews_corenlp():
     isolatedly, is parsed, and stored in the "Separated Reviews" 
     folder. 
     
-        
+    Before using it, see README for how to connecto to
+    CoreNLP server    
     '''
 
     start = time.perf_counter()
@@ -53,8 +54,6 @@ def parsing_reviews_corenlp():
         filename = filename[0] + ".xml"
         directory_name = file.name.split("_")
         directory_name = directory_name[0]
-        #print(filename)
-        #print(directory_name)
 
 
         directory = Path(destiny_folder, directory_name)

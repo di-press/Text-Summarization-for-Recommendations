@@ -51,6 +51,8 @@ def paper_pipeline(KL_threshold,
 
         filename = new_movie.xml_name + "_summary.txt"
         
+        # the desired parameters and corresponding summarization are going to 
+        # be printed in a .txt file:
         with open(filename, "a+", encoding="utf-8") as f:
             print("summarization for movie: ", new_movie.xml_name, file=f)
             print("disamgiguation: ", disambiguation, file=f)
@@ -98,7 +100,9 @@ if __name__ == '__main__':
     # you should register to obtain a key. You have a limited
     # number of babelcoins daily.
 
-    babelfy_API_key = 'insert your babelfy API key here'
+    #babelfy_API_key = '08e51760-1296-41a0-bfb5-8d9545674df8'
+    babelfy_API_key = 'da4937d3-5656-40f2-b9ea-a7350289d964'
+    #babelfy_API_key = 'insert your babelfy API key here'
 
     # the similarity to discard a sentence to be included in the summary,
     # to avoid redundancy:

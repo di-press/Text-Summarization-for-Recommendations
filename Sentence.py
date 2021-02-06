@@ -46,13 +46,6 @@ class Sentence:
     def sentiment(self):
         return self._sentiment
 
-    #@property
-    #def personal_opinion(self):
-    #    return self._personal_opinion
-    
-    #@personal_opinion.setter
-    #def personal_opinion_set(self):
-    #    self._personal_opinion = True
 
     @number_of_tokens.setter
     def number_of_tokens(self, number_of_tokens):
