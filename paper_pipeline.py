@@ -55,7 +55,7 @@ def paper_pipeline(KL_threshold,
         # be printed in a .txt file:
         with open(filename, "a+", encoding="utf-8") as f:
             print("summarization for movie: ", new_movie.xml_name, file=f)
-            print("disamgiguation: ", disambiguation, file=f)
+            print("disambiguation: ", disambiguation, file=f)
             print("KL threshold: ", KL_threshold, file=f)
             print("top-k aspects: ", top_k_number, file=f)
             print("tf_idf_threshold: ", tf_idf_threshold, file=f)
@@ -99,8 +99,8 @@ if __name__ == '__main__':
     # babelfy_API_key is your key to acces the Babelfy services.
     # you should register to obtain a key. You have a limited
     # number of babelcoins daily.
-
-    babelfy_API_key = 'insert your babelfy API key here'
+    babelfy_API_key = 'da4937d3-5656-40f2-b9ea-a7350289d964'
+    #babelfy_API_key = 'insert your babelfy API key here'
 
     # the similarity to discard a sentence to be included in the summary,
     # to avoid redundancy:
