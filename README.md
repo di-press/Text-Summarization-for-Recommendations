@@ -20,13 +20,9 @@
 
 ## Results
 
-Resulting summary for the movie "Remember the Titans":
-
-<img title="summary" src="summary1.png" width="220" /> <br>
-
-Resulting summary for the movie "Heartbrakers":
-<img title="summary" src="summary2.png" width="220" /> 
-
+| |
+:---: 
+| ![Scene](summary2.png) <br/>Resulting summaries for the movies "Heartbreakers" and "Remember the Titans", respectively |
 
 
 
