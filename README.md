@@ -20,21 +20,17 @@
 
 ## Results
 
-Some results for the movies "Remember the Titans" and "", respectively.
+Resulting summary for the movie "Remember the Titans":
 
-<p float="left">
-<table>
-<tr>
-<td>  
-    <img title="summary" src="summary1.png" width="220" />
-    <img title="summary" src="summary2.png" width="220" /> 
+<img title="summary" src="summary1.png" width="220" /> <br>
 
-</td>
-</tr>
-</table>
-</p>
+Resulting summary for the movie "Heartbrakers":
+<img title="summary" src="summary2.png" width="220" /> 
+
+
 
 
 ## Methodology
+
 
 TO DO
