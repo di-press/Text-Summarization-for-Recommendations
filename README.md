@@ -28,5 +28,9 @@
 
 ## Methodology
 
+| |
+:---: 
+| ![Scene](methodology.png) <br/> |
+
 
 TO DO
